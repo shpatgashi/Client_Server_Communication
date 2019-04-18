@@ -17,7 +17,7 @@ print('Serveri ka filluar te pranoje kekresa...' +"\n")
 
 
 def listenToConns(conns,addr):
-    size = 1024
+    size = 128
     while True:
         try:
             data = conns.recv(size)

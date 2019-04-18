@@ -18,7 +18,7 @@ while True:
             break
         else:
             s.sendto(str.encode(var),socketi)
-            r = s.recvfrom(1024)
+            r = s.recvfrom(128)
 
             answer = r[0].decode("utf-8")
             print(answer)

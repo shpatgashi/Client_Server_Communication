@@ -18,7 +18,7 @@ while True:
             break
         else:
             s.send(str.encode(var))
-            r = s.recv(1024).decode("utf-8")
+            r = s.recv(128).decode("utf-8")
             print(r)
 
 

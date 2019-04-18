@@ -116,7 +116,7 @@ port = 12000
 ss= socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 ss.bind((host, port))
 while True:
-    data, addr = ss.recvfrom(1024)
+    data, addr = ss.recvfrom(128)
     print("Serveri u konektua me klientin  " + addr[0] + " ne portin " + str(addr[1]) + "\n")
     data = data.decode("utf-8").lower()
     try:
