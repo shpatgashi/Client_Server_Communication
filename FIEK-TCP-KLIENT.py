@@ -1,7 +1,7 @@
 import  socket
 
 host = 'localhost'
-port = 12000
+port = 12004
 
 
 s = socket.socket(socket.AF_INET , socket.SOCK_STREAM)

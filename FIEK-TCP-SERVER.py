@@ -6,23 +6,24 @@ from math import pi
 from math import sqrt
 
 host = "localhost"
-port = 12000
+port = 12004
 ss = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
 
 ss.bind((host, port))
 
 ss.listen(3)
-print('Serveri ka filluar te pranoje kekresa...' +"\n")
+print('Serveri ka filluar te pranoje kekresa...')
 
 
 def listenToConns(conns,addr):
+    print("Serveri u konektua me klientin  " + addr[0] + " ne portin " + str(addr[1]) + "\n")
     size = 128
     while True:
         try:
             data = conns.recv(size)
             data = data.decode("utf-8").lower()
-
+            print("Klienti "+ addr[0]+ " shtypi kete kerkese : " + data)
             if (data.startswith("ipaddress")):
                 p = ipaddress(addr[0])
             elif data.startswith("numri i portit"):
@@ -43,7 +44,6 @@ def listenToConns(conns,addr):
                 p = konvertimi(data)
             elif data.startswith("gjeje numrin"):
                 p = guessNumber(data.split()[2])
-                p = guessNumber(data.split()[2])
             elif data.startswith("rrenja katrore"):
                 p = squareRoot(data.split()[2])
             else:
@@ -51,7 +51,7 @@ def listenToConns(conns,addr):
 
             p = str(p)
             conns.send(str.encode(p))
-
+            print("Serveri i dergoi klientit " + addr[0] + " kete pergjigje " + p)
         except:
             conns.close()
             return False
@@ -116,17 +116,17 @@ def konvertimi(data):
     data = data.lower()
     data= data.split(" ")
     if data[1] == "kilowatttohorsepower":
-        return kwtohp(data[2])
+        return (float(data[2])* 1.341)
     elif data[1] == "horsepowertokilowatt":
-        return hptokw(data[2])
+        return (float(data[2])/1.341)
     elif data[1] == "degreestoradians":
-        return degtorad(data[2])
+        return (float(data[2]*pi)/180)
     elif data[1] == "radianstodegrees":
-        return radtodeg(data[2])
+        return (float(data[2])*180/pi)
     elif data[1] == "gallonstoliters":
-        return galtolit(data[2])
+        return (float(data[2])*3.785)
     elif data[1] == "literstogallons":
-        return littogal(data[2])
+        return (float(data[2])/3.785)
     else:
         return "Ka ndodhur nje gabim"
 
@@ -142,23 +142,7 @@ def squareRoot( num):
     return b
 
 
-def kwtohp(value):
-    return (int(value)* 1.341)
 
-def hptokw(value):
-    return int(value)/1.341
-
-def degtorad(value):
-    return (int(value)*pi/180)
-
-def radtodeg(value):
-    return (int(value)*180/pi)
-
-def galtolit(value):
-    return (int(value)*3.785)
-
-def littogal(value):
-    return (int(value)/3.785)
 
 
 

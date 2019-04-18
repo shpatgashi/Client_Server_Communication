@@ -61,21 +61,22 @@ def fibonacci(a):
 
 def konvertimi(data):
     data = data.lower()
-    data= data.split(" ")
+    data = data.split(" ")
     if data[1] == "kilowatttohorsepower":
-        return kwtohp(data[2])
+        return (float(data[2]) * 1.341)
     elif data[1] == "horsepowertokilowatt":
-        return hptokw(data[2])
+        return (float(data[2]) / 1.341)
     elif data[1] == "degreestoradians":
-        return degtorad(data[2])
+        return (float(data[2] * pi) / 180)
     elif data[1] == "radianstodegrees":
-        return radtodeg(data[2])
+        return (float(data[2]) * 180 / pi)
     elif data[1] == "gallonstoliters":
-        return galtolit(data[2])
+        return (float(data[2]) * 3.785)
     elif data[1] == "literstogallons":
-        return littogal(data[2])
+        return (float(data[2]) / 3.785)
     else:
         return "Ka ndodhur nje gabim"
+
 
 def guessNumber( num):
     b = (random.randint(1, 5))
@@ -89,26 +90,6 @@ def squareRoot( num):
     return b
 
 
-def kwtohp(value):
-    return (int(value)* 1.341)
-
-def hptokw(value):
-    return int(value)/1.341
-
-def degtorad(value):
-    return (int(value)*pi/180)
-
-def radtodeg(value):
-    return (int(value)*180/pi)
-
-def galtolit(value):
-    return (int(value)*3.785)
-
-def littogal(value):
-    return (int(value)/3.785)
-
-
-
 
 host = "localhost"
 port = 12000
@@ -119,6 +100,8 @@ while True:
     data, addr = ss.recvfrom(128)
     print("Serveri u konektua me klientin  " + addr[0] + " ne portin " + str(addr[1]) + "\n")
     data = data.decode("utf-8").lower()
+    print("Klienti " + addr[0] + " shtypi kete kerkese : " + data + "\n")
+
     try:
 
         if(data.startswith("ipaddress")):
@@ -147,8 +130,9 @@ while True:
         else :
             p = "Keni shtypur opsionin gabim! Provoni perseri!"
         p = str(p).upper()
-        print(p)
         ss.sendto(str.encode(p),addr)
+        print("Serveri i dergoi klientit " + addr[0] + " kete pergjigje " + p + "\n")
+
 
     except:
         print("Ka ndodhur nje gabim")
