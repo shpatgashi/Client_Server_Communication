@@ -1,7 +1,7 @@
 import  socket
 
-serverName = '10.1.13.81'
-port = 12001
+serverName = 'localhost'
+port = 12000
 
 
 s = socket.socket(socket.AF_INET , socket.SOCK_STREAM)

@@ -19,6 +19,7 @@ while True:
         else:
             s.sendto(str.encode(var),socketi)
             r = s.recvfrom(1024)
+
             answer = r[0].decode("utf-8")
             print(answer)
 

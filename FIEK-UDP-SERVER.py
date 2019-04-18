@@ -118,9 +118,7 @@ ss.bind((host, port))
 while True:
     data, addr = ss.recvfrom(1024)
     print("Serveri u konektua me klientin  " + addr[0] + " ne portin " + str(addr[1]) + "\n")
-    size = 1024
     data = data.decode("utf-8").lower()
-    print()
     try:
 
         if(data.startswith("ipaddress")):
@@ -149,6 +147,7 @@ while True:
         else :
             p = "Keni shtypur opsionin gabim! Provoni perseri!"
         p = str(p).upper()
+        print(p)
         ss.sendto(str.encode(p),addr)
 
     except:
