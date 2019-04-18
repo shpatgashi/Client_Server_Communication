@@ -5,16 +5,6 @@ from _datetime import datetime
 from math import pi
 from math import sqrt
 
-host = "localhost"
-port = 12004
-ss = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-
-
-ss.bind((host, port))
-
-ss.listen(3)
-print('Serveri ka filluar te pranoje kekresa...')
-
 
 def listenToConns(conns,addr):
     print("Serveri u konektua me klientin  " + addr[0] + " ne portin " + str(addr[1]) + "\n")
@@ -145,7 +135,15 @@ def squareRoot( num):
 
 
 
+host = "localhost"
+port = 12004
+ss = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
+
+ss.bind((host, port))
+
+ss.listen(3)
+print('Serveri ka filluar te pranoje kekresa...')
 
 while True:
     conns, addr = ss.accept()
