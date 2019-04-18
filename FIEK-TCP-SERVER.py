@@ -1,24 +1,26 @@
 import socket
 import threading
 import random
-import datetime
+from _datetime import datetime
 from math import pi
-
+from math import sqrt
 
 class ThreadedServer(object):
-    def __init__(self):
-        host = "localhost"
-        port = 12000
+    def __init__(self, host, port):
+        self.host = host
+        self.port = port
         self.ss = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.ss.bind((host, port))
 
     def listen(self):
         self.ss.listen(5)
         while True:
+
             conns, addr = self.ss.accept()
+            print("Serveri u konektua me klientin  " + addr[0] + " ne portin " +  str(addr[1]) + "\n")
             conns.settimeout(60)
             threading.Thread(target=self.listenToConns, args=(conns, addr)).start()
-
+    
     def listenToConns(self, conns, addr):
         size = 1024
         while True:
@@ -30,7 +32,6 @@ class ThreadedServer(object):
                 conns.send(str.encode(p))
 
             except :
-                print("Soketi u mbyll")
                 conns.close()
                 return False
 
@@ -38,16 +39,16 @@ class ThreadedServer(object):
     def datastartswith(self, data):
         data = data.lower()
         if data.startswith("ipaddress"):
-            return self.ipaddress(self.ss.addr)
-        elif data.startswith("numriiportit"):
-            return self.numriportit(self.ss.addr)
+            return self.ipaddress(self.addr)
+        elif data.startswith("numri i portit"):
+            return self.numriportit(self.addr)
         elif data.startswith("bashketingellore"):
             data.replace("bashketingellore", "")
             return self.bashketingellore(data[16:])
         elif data.startswith("printimi"):
             data.replace("printimi", "")
             return self.printimi(data[8:])
-        elif data.startswith("emriikompjuterit"):
+        elif data.startswith("emri i kompjuterit"):
             return self.emrikompjuterit()
         elif data.startswith("koha"):
             return self.koha()
@@ -57,22 +58,22 @@ class ThreadedServer(object):
             return self.fibonacci(data.split()[1])
         elif data.startswith("konvertimi"):
              return self.konvertimi(data)
-
-    def ipaddress(self, address):
+        elif data.startswith("gjeje numrin"):
+                return self.guessNumber(data.split()[2])
+        elif data.startswith("rrenja katrore"):
+                return self.squareRoot(data.split()[2])
+        else:
+            return "Keni shtypur opsionin gabim! Provoni perseri."
+    def ipaddress(self, adresa):
         try:
-            return address()[0]
+            return adresa[0]
         except:
             return "Nuk mundemi te gjenerojme IP Addressen"
-    def numriportit(self,addr):
+    def numriportit(self,adresa):
         try:
-            return addr()[1]
+            return adresa[1]
         except:
             return "Nuk mundemi te gjenerojme nr e portit"
-    def emrikompjuterit(self):
-        try:
-            return socket.gethostname()
-        except:
-            return "Nuk mundemi te gjenerojme emrin e kompjuterit "
     def fibonacci(self, a):
         i = 1
         x = 0
@@ -97,25 +98,27 @@ class ThreadedServer(object):
             return X
         except:
             return "Nuk mundemi te i numrojme bashketingelloret"
-    def loja(self):
-        for i in range (1,8):
-            a =(random.randint(1,50))
-            b =(random.randint(1,50))
-            c =(random.randint(1,50))
-            d =(random.randint(1,50))
-            e = (random.randint(1, 50))
-        return (a,b,c,d,e)
-
     def printimi(self, testi):
         testi =  testi.strip()
         return testi
 
+    def emrikompjuterit(self):
+        try:
+            return socket.gethostname()
+        except:
+            return "Nuk mundemi te gjenerojme emrin e kompjuterit "
     def koha(self):
         try:
-            time = datetime.datetime().strftime('%H:%M:%S-%D')
-            return time
+            time = datetime.now()
+            return time.strftime("%H:%M:%S-%D")
         except ConnectionAbortedError:
             print("Time could not be generated")
+
+    def loja(self):
+        a =(random.randint(1,50) , random.randint(1,50),random.randint(1,50),random.randint(1,50),random.randint(1,50),random.randint(1,50),random.randint(1,50),)
+        return (str(a))
+
+
     def konvertimi(self,data):
         data = data.lower()
         data= data.split(" ")
@@ -132,8 +135,18 @@ class ThreadedServer(object):
         elif data[1] == "literstogallons":
             return self.littogal(data[2])
         else:
-            return "Ka ndodhur nje gabim rip"
+            return "Ka ndodhur nje gabim"
 
+    def guessNumber(self, num):
+        b = (random.randint(1, 10))
+
+        if( int(num) == b):
+            return "Keni gjetur numrin random"
+        else:
+            return "Gabim !!"
+    def squareRoot(self, num):
+        b = sqrt(float(num))
+        return b
 
 
     def kwtohp(self,value):
@@ -158,4 +171,5 @@ class ThreadedServer(object):
 
 
 
-ThreadedServer().listen()
+
+ThreadedServer('localhost', 12001).listen()
