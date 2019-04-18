@@ -1,6 +1,6 @@
 import  socket
 
-serverName = 'localhost'
+serverName = '10.1.13.81'
 port = 12001
 
 

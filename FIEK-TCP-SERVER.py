@@ -20,7 +20,7 @@ class ThreadedServer(object):
             print("Serveri u konektua me klientin  " + addr[0] + " ne portin " +  str(addr[1]) + "\n")
             conns.settimeout(60)
             threading.Thread(target=self.listenToConns, args=(conns, addr)).start()
-    
+
     def listenToConns(self, conns, addr):
         size = 1024
         while True:
@@ -39,9 +39,9 @@ class ThreadedServer(object):
     def datastartswith(self, data):
         data = data.lower()
         if data.startswith("ipaddress"):
-            return self.ipaddress(self.addr)
+            return self.ipaddress(addr[0])
         elif data.startswith("numri i portit"):
-            return self.numriportit(self.addr)
+            return self.numriportit(addr[1])
         elif data.startswith("bashketingellore"):
             data.replace("bashketingellore", "")
             return self.bashketingellore(data[16:])
@@ -64,9 +64,9 @@ class ThreadedServer(object):
                 return self.squareRoot(data.split()[2])
         else:
             return "Keni shtypur opsionin gabim! Provoni perseri."
-    def ipaddress(self, adresa):
+    def ipaddress(self):
         try:
-            return adresa[0]
+            return self.ss.addr[0]
         except:
             return "Nuk mundemi te gjenerojme IP Addressen"
     def numriportit(self,adresa):
@@ -172,4 +172,4 @@ class ThreadedServer(object):
 
 
 
-ThreadedServer('localhost', 12001).listen()
+ThreadedServer('10.1.13.81', 12001).listen()
